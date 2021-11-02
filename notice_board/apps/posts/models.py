@@ -4,7 +4,7 @@ from apps.users.models import User
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
 
 class Post(models.Model):
