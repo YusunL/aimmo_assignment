@@ -3,14 +3,14 @@ from apps.users.models import User
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(default="", max_length=50)
 
 
 class Post(models.Model):
     """Custom Post Model"""
 
     title = models.CharField(max_length=100)
-    content = models.TextField(max_length=2000)
+    body = models.TextField(max_length=2000)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
