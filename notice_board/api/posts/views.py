@@ -1,9 +1,10 @@
 from django.views import View
 from django.core.paginator import Paginator
-from apps.posts.models import Post, Category, Comment, NestedComment
+from apps.posts.models import Post, Category, Comment, NestedComment, PostHits
 from api.utils import LoginConfirm
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, response
+from datetime import date, datetime, timedelta, timezone
 
 
 class CategoryView(View):
@@ -27,10 +28,16 @@ class PostView(View):
             except Post.DoesNotExist:
                 return JsonResponse(data={}, status=404)
 
-            # 조회수 증가 로직 수정필요
+            # 조회수 증가 - DB 이용 중복 제거
             if instance.user != request.user:
-                instance.hit += 1
-                instance.save()
+                if not PostHits.objects.filter(
+                    user=request.user, post=instance
+                ).exists():
+                    PostHits.objects.create(
+                        user=request.user, date=timezone.now(), post=instance
+                    )
+                    instance.hit += 1
+                    instance.save()
 
             return JsonResponse(
                 data={
@@ -43,6 +50,7 @@ class PostView(View):
                 },
                 status=200,
             )
+        # 게시글 검색
         elif "keyword" in request.GET:
             queryset = Post.objects.filter(title__icontains=request.GET["keyword"])
         else:
