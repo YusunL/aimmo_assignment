@@ -11,6 +11,9 @@ from notice_board.settings import SECRET_KEY, ALGO
 class Signup(View):
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body)
+        if User.objects.filter(name=data['name']).exists():
+            return JsonResponse(data={"message": "duplicate"}, status=400)
+
         User.objects.create(name=data["name"])
         return JsonResponse(data={"message": "user created"}, status=201)
 
