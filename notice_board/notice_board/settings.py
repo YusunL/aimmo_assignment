@@ -82,7 +82,7 @@ DATABASES = {
             "host": "localhost",
             "port": 27017,
             "username": "root",
-            "password": "",
+            "password": "1234",
             "authSource": "admin",
             "authMechanism": "SCRAM-SHA-1",
         },
