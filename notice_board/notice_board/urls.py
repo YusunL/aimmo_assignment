@@ -11,11 +11,11 @@ urlpatterns = [
     path("post/<int:post_id>/comment", CommentView.as_view()),
     path("post/<int:post_id>/comment/<int:comment_id>", CommentView.as_view()),
     path(
-        "post/<int:post_id>/comment/<int:comment_id>/big_comment",
+        "post/<int:post_id>/comment/<int:comment_id>/nested_comment",
         NestedCommentView.as_view(),
     ),
     path(
-        "post/<int:post_id>/comment/<int:comment_id>/big_comment/<int:big_comment_id>",
+        "post/<int:post_id>/comment/<int:comment_id>/nested_comment/<int:nested_comment_id>",
         NestedCommentView.as_view(),
     ),
 ]

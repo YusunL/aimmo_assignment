@@ -73,7 +73,7 @@ class PostView(View):
 
         data = json.loads(request.body)
         try:
-            category = Category.objects.get(id=data["type"])
+            category = Category.objects.get(id=data["category"])
         except Category.DoesNotExist:
             return JsonResponse(data={}, status=400)
 
@@ -265,7 +265,7 @@ class NestedCommentView(View):
 
         data = json.loads(request.body)
         try:
-            instance = NestedComment.objects.get(id=kwargs["Nested_comment_id"])
+            instance = NestedComment.objects.get(id=kwargs["nested_comment_id"])
         except NestedComment.DoesNotExist:
             return JsonResponse(data={}, status=404)
         else:
@@ -284,7 +284,7 @@ class NestedCommentView(View):
             return JsonResponse(data={}, status=401)
 
         try:
-            instance = NestedComment.objects.get(id=kwargs["Nested_comment_id"])
+            instance = NestedComment.objects.get(id=kwargs["nested_comment_id"])
         except NestedComment.DoesNotExist:
             return JsonResponse(data={}, status=404)
         else:
