@@ -19,8 +19,8 @@ class PostView(View):
                 data={
                     "id": instance.id,
                     "title": instance.title,
-                    "content": instance.content,
-                    "writer": instance.writer_id,
+                    "body": instance.body,
+                    "user": instance.user_id,
                 },
                 status=200,
             )
@@ -36,7 +36,7 @@ class PostView(View):
                 {
                     "id": instance.id,
                     "title": instance.title,
-                    "content": instance.content,
+                    "body": instance.body,
                 }
                 for instance in page.object_list
             ],
@@ -55,8 +55,8 @@ class PostView(View):
 
         instance = Post.objects.create(
             title=data["title"],
-            content=data["content"],
-            writer=request.user,
+            body=data["body"],
+            user=request.user,
         )
         return JsonResponse(
             data={"id": instance.id, "title": instance.title}, status=201
@@ -73,7 +73,7 @@ class PostView(View):
         except Post.DoesNotExist:
             return JsonResponse(data={}, status=404)
         else:
-            if instance.writer != request.user:
+            if instance.user != request.user:
                 return JsonResponse(data={}, status=401)
 
         for key in data.keys():
